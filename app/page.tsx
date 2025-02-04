@@ -59,7 +59,7 @@ export default function LandingPage() {
       >
         <SignedIn>
           {/* Jika sudah login, langsung redirect ke halaman chat */}
-          <Link href="/chat">
+          <Link href="/chat/conversations">
             <Button className="mt-8 px-6 py-6 text-lg font-semibold text-white bg-blue-600 rounded-lg shadow-lg transition-all duration-300 hover:bg-blue-700 hover:scale-105">
               Go to Chat
               <ArrowRight className="ml-2 h-5 w-5" />
