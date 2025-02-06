@@ -44,8 +44,8 @@ export default defineSchema({
 
   messages: defineTable({
     senderId: v.id("users"),
-    conversationdId: v.id("conversations"),
+    conversationId: v.id("conversations"),
     type: v.string(),
     content: v.array(v.string()),
-  }).index("by_conversationId", ["conversationdId"]),
+  }).index("by_conversationId", ["conversationId"]),
 });
