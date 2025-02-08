@@ -12,13 +12,20 @@ import ChatInput from "./_components/input/ChatInput";
 import RemoveFriendDialog from "./_components/dialogs/RemoveFriendDialog";
 import DeleteGroupDialog from "./_components/dialogs/DeleteGroupDialog";
 import LeaveGroupDialog from "./_components/dialogs/LeaveGroupDialog";
+import { use } from "react";
 
 type Props = {
   params: {
     conversationId: Id<"conversations">;
   };
 };
-const ConversationPage = ({ params: { conversationId } }: Props) => {
+const ConversationPage = ({
+  params,
+}: {
+  params: Promise<{ conversationId: Id<"conversations"> }>;
+}) => {
+  const { conversationId } = use(params);
+
   const conversation = useQuery(api.conversation.get, { id: conversationId });
 
   const [removeFriendDialogOpen, setRemoveFriendDialogOpen] = useState(false);
@@ -26,8 +33,6 @@ const ConversationPage = ({ params: { conversationId } }: Props) => {
   const [deleteGroupDialogOpen, setDeleteGroupDialogOpen] = useState(false);
 
   const [leaveGroupDialogOpen, setLeaveGroupDialogOpen] = useState(false);
-
-  const [callType, setCallType] = useState<"audio" | "video" | "null">(null);
 
   return conversation === undefined ? (
     <div className="w-full h-full flex items-center justify-center">
@@ -86,7 +91,17 @@ const ConversationPage = ({ params: { conversationId } }: Props) => {
               ]
         }
       />
-      <Body />
+      <Body
+        members={
+          conversation.isGroup
+            ? conversation.otherMembers
+              ? conversation.otherMembers
+              : []
+            : conversation.otherMember
+              ? [conversation.otherMember]
+              : []
+        }
+      />
       <ChatInput />
     </ConversationContainer>
   );
